@@ -25,6 +25,13 @@ namespace TWpf.Views
         {
             InitializeComponent();
             this.DataContext = new BarcodeScannerViewModel(this.Dispatcher);
+            Unloaded += ClosePort;
+        }
+
+        private void ClosePort(object sender, RoutedEventArgs e)
+        {
+            var vm = (BarcodeScannerViewModel)DataContext;
+            vm.Close();
         }
     }
 }

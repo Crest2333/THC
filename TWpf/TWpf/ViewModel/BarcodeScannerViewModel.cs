@@ -7,6 +7,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using TWpf.Model;
 using TWpf.Views;
@@ -29,7 +30,6 @@ namespace TWpf.ViewModel
         private const string DataFrameSeparator = "\r\n";
 
         private object bufferLock = new object();
-
         public BarcodeScannerViewModel(Dispatcher dispatcher)
         {
             this.barcodeScannerInfo = new BarcodeScannerInfo("COM19", 9600, System.IO.Ports.Parity.None, 8, StopBits.One);
@@ -40,30 +40,37 @@ namespace TWpf.ViewModel
             disableConnectBtn = true;
         }
 
-        private void PortDataReceived(object sender, SerialDataReceivedEventArgs eventArgs)
+        private async void PortDataReceived(object sender, SerialDataReceivedEventArgs eventArgs)
         {
-            SerialPort sp = (SerialPort)sender;
-            string receivedData = sp.ReadExisting();
-            receivedDataBuffer.Append(receivedData);
-            // 直接读取receivedData，数据会不完整，根据\r\n判断数据是否完整
-            // 处理数据帧
-            while (receivedDataBuffer.ToString().Contains(DataFrameSeparator))
+            try
             {
-                int separatorIndex = receivedDataBuffer.ToString().IndexOf(DataFrameSeparator);
-                string dataFrame = receivedDataBuffer.ToString().Substring(0, separatorIndex);
-                receivedDataBuffer.Remove(0, separatorIndex + 2);
-
-                // 在 UI 线程中更新数据
-                _dispatcher.Invoke(() =>
+                SerialPort sp = (SerialPort)sender;
+                string receivedData = sp.ReadExisting();
+                receivedDataBuffer.Append(receivedData);
+                // 直接读取receivedData，数据会不完整，根据\r\n判断数据是否完整
+                // 处理数据帧
+                while (receivedDataBuffer.ToString().Contains(DataFrameSeparator))
                 {
-                    if (!string.IsNullOrEmpty(dataFrame))
-                    {
-                        lock (bufferLock)
-                        {
-                            Barcodes.Add(new BarcodeScannerData(dataFrame, DateTime.Now));
-                        }
-                    }
-                });
+                    int separatorIndex = receivedDataBuffer.ToString().IndexOf(DataFrameSeparator);
+                    string dataFrame = receivedDataBuffer.ToString().Substring(0, separatorIndex);
+                    receivedDataBuffer.Remove(0, separatorIndex + 2);
+
+                    // 在 UI 线程中更新数据
+                    await _dispatcher.InvokeAsync(() =>
+                     {
+                         if (!string.IsNullOrEmpty(dataFrame))
+                         {
+                             lock (bufferLock)
+                             {
+                                 Barcodes.Add(new BarcodeScannerData(dataFrame, DateTime.Now));
+                             }
+                         }
+                     });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"接收数据时出错: {ex.Message}");
             }
         }
 
@@ -119,7 +126,24 @@ namespace TWpf.ViewModel
             serialPort.Open();
             DisableConnectBtn = false;
             DisableDisConnectBtn = true;
+        }
 
+        public void Close()
+        {
+            serialPort.DataReceived -= PortDataReceived;
+
+            if (!serialPort.IsOpen)
+            {
+                return;
+            }
+            try
+            {
+                serialPort.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"关闭串口时出错: {ex.Message}");
+            }
         }
     }
 }
