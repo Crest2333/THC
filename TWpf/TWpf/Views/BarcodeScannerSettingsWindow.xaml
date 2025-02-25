@@ -25,7 +25,7 @@
 
         <!-- 校验位 -->
         <Label Content="校验位:" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="ParityComboBox" HorizontalAlignment="Left" Margin="100,100,0,0" VerticalAlignment="Top" Width="200">
+        <ComboBox x:Name="ParityComboBox" HorizontalAlignment="Left" Margin="100,100,0,0" VerticalAlignment="Top" Width="200" >
             <ComboBoxItem Content="无"/>
             <ComboBoxItem Content="奇校验"/>
             <ComboBoxItem Content="偶校验"/>

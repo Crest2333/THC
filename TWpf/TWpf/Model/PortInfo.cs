@@ -10,9 +10,9 @@ namespace TWpf.Model
     /// <summary>
     /// 扫码枪通信信息
     /// </summary>
-    public class BarcodeScannerInfo
+    public class PortInfo
     {
-        public BarcodeScannerInfo(string portName, int baudRate, Parity parity, int dataBiits, StopBits stopBits)
+        public PortInfo(string portName, int baudRate, Parity parity, int dataBiits, StopBits stopBits)
         {
             PortName = portName;
             BaudRate = baudRate;

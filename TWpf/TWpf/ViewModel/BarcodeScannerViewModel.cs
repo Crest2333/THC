@@ -17,7 +17,7 @@ namespace TWpf.ViewModel
     public partial class BarcodeScannerViewModel : ObservableObject
     {
         [ObservableProperty]
-        private BarcodeScannerInfo barcodeScannerInfo;
+        private PortInfo barcodeScannerInfo;
         [ObservableProperty]
         private bool disableConnectBtn;
         [ObservableProperty]
@@ -32,7 +32,7 @@ namespace TWpf.ViewModel
         private object bufferLock = new object();
         public BarcodeScannerViewModel(Dispatcher dispatcher)
         {
-            this.barcodeScannerInfo = new BarcodeScannerInfo("COM19", 9600, System.IO.Ports.Parity.None, 8, StopBits.One);
+            this.barcodeScannerInfo = new PortInfo("COM19", 9600, System.IO.Ports.Parity.None, 8, StopBits.One);
             serialPort = new SerialPort();
             serialPort.DataReceived += PortDataReceived;
             _dispatcher = dispatcher;

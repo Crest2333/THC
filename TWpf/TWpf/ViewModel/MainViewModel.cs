@@ -36,7 +36,13 @@ namespace TWpf.ViewModel
                 Title = "扫码枪",
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new BarcodeScanner())
-            }); ;
+            });
+             NavItems.Add(new NavigationItem
+             {
+                 Title = "欧姆龙",
+                 IconPath = "home.png",
+                 Command = new RelayCommand(() => CurrentView = new OmroView())
+             });
         }
 
 
