@@ -7,63 +7,19 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="OmroView">
+    <Page.Resources>
+       
+    </Page.Resources>
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
 
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Header="数据操作" Padding="10">
+        <GroupBox Grid.Row="0" Header="通信操作" Padding="10">
             <Grid >
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="串口号:" Grid.Column="0"  Grid.Row="0" TextAlignment="Right"></TextBlock>
-                <ComboBox Grid.Column="1" Grid.Row="0">
-                    <!-- 这里可以动态添加可用的串口，示例先写几个 -->
-                    <ComboBoxItem Content="COM19"/>
-                    <ComboBoxItem Content="COM2"/>
-                    <ComboBoxItem Content="COM3"/>
-                    <ComboBoxItem Content="COM4"/>
-                </ComboBox>
-                <TextBlock Text="波特率:" Grid.Column="2" Grid.Row="0" TextAlignment="Right"></TextBlock>
-                <ComboBox Grid.Column="3" Grid.Row="0">
-                    <ComboBoxItem Content="9600"/>
-                    <ComboBoxItem Content="115200"/>
-                </ComboBox>
-                <TextBlock Text="校验位:" Grid.Column="0" Grid.Row="1" TextAlignment="Right" ></TextBlock>
-                <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding PortInfo.Parity}">
-                 
-                </ComboBox>
-                <TextBlock Text="数据位:" Grid.Column="2" Grid.Row="1" TextAlignment="Right"></TextBlock>
-                <ComboBox Grid.Column="3" Grid.Row="1" >
-                    <ComboBoxItem Content="7" />
-                    <ComboBoxItem Content="8"/>
-                </ComboBox>
-                <TextBlock Text="停止位:" Grid.Column="0" Grid.Row="2" TextAlignment="Right"></TextBlock>
-                <ComboBox Grid.Column="1" Grid.Row="2">
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="1.5"/>
-                    <ComboBoxItem Content="2"/>
-                </ComboBox>
-                <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding ConnectCommand}">打开串口</Button>
-
-            </Grid>
-        </GroupBox>
-    
-
-        <GroupBox Grid.Row="1" Header="通信操作" Padding="10">
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
@@ -76,50 +32,51 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="单元号:" Grid.Column="0"  Grid.Row="0" TextAlignment="Right" ></TextBlock>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Unit}">
-
+                
+                <TextBlock Text="单元号:" Grid.Column="0"  Grid.Row="0" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Unit}" Margin="10">
                 </TextBox>
-                <TextBlock Text="起始地址:" Grid.Column="2" Grid.Row="0" TextAlignment="Right"></TextBlock>
-                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding StartAddress}">
-
+                
+                <TextBlock Text="起始地址:" Grid.Column="2" Grid.Row="0" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding StartAddress}" Margin="10">
                 </TextBox>
-                <TextBlock Text="数据:" Grid.Column="0" Grid.Row="1" TextAlignment="Right"></TextBlock>
-                <TextBox Grid.Column="1" Grid.ColumnSpan="3"  Grid.Row="1" Text="{Binding Data}">
-
+                
+                <TextBlock Text="数据:" Grid.Column="0" Grid.Row="1" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBox Grid.Column="1" Grid.ColumnSpan="3"  Grid.Row="1" Text="{Binding Data}" Margin="10">
+                </TextBox>
+                
+                <TextBlock Text="指令:" Grid.Column="0" Grid.Row="2" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Command}" Margin="10">
                 </TextBox>
 
-                <TextBlock Text="指令:" Grid.Column="0" Grid.Row="2" TextAlignment="Right"></TextBlock>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Command}">
-
-                </TextBox>
-                <Button Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding SendCommand}">读取\写入</Button>
-                <ListBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" ItemsSource="{Binding Datas}">
-                    <ListBox.ItemContainerStyle >
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="Border" 
-         Background="Transparent"
-         Padding="10 5">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock Margin="0 0 10 0" Text="{Binding}">
-
-                                                </TextBlock>
-                                             
-                                            </StackPanel>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                 
-                </ListBox>
+                <Button Grid.Column="2"  Grid.Row="2" Command="{Binding ConnectCommand}" Margin="10">打开串口</Button>
+                <Button Grid.Column="3"  Grid.Row="2" Command="{Binding SendCommand}" Margin="10">读取\写入</Button>
+                
+              
             </Grid>
         </GroupBox>
+        <GroupBox Grid.Row="1" Header="数据">
+            <ListBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" ItemsSource="{Binding Datas}">
+                <ListBox.ItemContainerStyle >
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="Border" 
+                           Background="Transparent"
+                           Padding="10">
+                                        <TextBlock Margin="0 0 0 0" Text="{Binding}">
 
+                                        </TextBlock>
+
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </GroupBox>
     </Grid>
 
 </Page>

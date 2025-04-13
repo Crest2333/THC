@@ -24,8 +24,7 @@ namespace TWpf.Views
         public OmroView()
         {
             InitializeComponent();
-            DataContext = new OmroViewModel
-(this.Dispatcher);
+            DataContext = new OmroViewModel(this.Dispatcher);
         }
     }
 }
