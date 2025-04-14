@@ -43,6 +43,13 @@ namespace TWpf.ViewModel
                  IconPath = "home.png",
                  Command = new RelayCommand(() => CurrentView = new OmroView())
              });
+
+            NavItems.Add(new NavigationItem
+            {
+                Title = "表单",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new Table())
+            });
         }
 
 

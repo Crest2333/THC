@@ -14,7 +14,7 @@
                     <ControlTemplate TargetType="ListBoxItem">
                         <Border x:Name="Border" 
                             Background="Transparent"
-                            Padding="10 5">
+                            Padding="10 5" Height="30">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <!-- 图标 -->
                                 <Image Source="{Binding IconPath}"
@@ -53,7 +53,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" BorderThickness="1" BorderBrush="Black">
+        <Border Grid.Column="0" BorderThickness="1">
             <ListBox x:Name="NavList" 
                  ItemsSource="{Binding NavItems}"
                  ItemContainerStyle="{StaticResource NavItemStyle}"
@@ -69,7 +69,7 @@
                 </ListBox.ItemsPanel>
             </ListBox>
         </Border>
-        <Border Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+        <Border Grid.Column="1" BorderThickness="1" >
             <Frame Content="{Binding CurrentView}"></Frame>
         </Border>
     </Grid>

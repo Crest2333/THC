@@ -1,0 +1,64 @@
+﻿<Page x:Class="TWpf.Views.Table"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TWpf.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Table">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto">
+                
+            </RowDefinition>
+            <RowDefinition>
+                
+            </RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto">
+                </ColumnDefinition>
+                <ColumnDefinition>
+                </ColumnDefinition>
+                <ColumnDefinition Width="auto">
+                </ColumnDefinition>
+                <ColumnDefinition>
+                </ColumnDefinition>
+                <ColumnDefinition>
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="车牌" Grid.Column="0" TextAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding CarNo}"></TextBox>
+            <TextBlock Text="车架" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" Margin="5"></TextBlock>
+            <TextBox Grid.Column="3" Margin="5"  Text="{Binding VinNo}"></TextBox>
+            <Button Grid.Column="4" Margin="5" Command="{Binding SearchCommand}" >搜索</Button>
+        </Grid>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding CarList}"  AutoGenerateColumns="False"> 
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="车牌号" Binding="{Binding CarNo}" />
+                <DataGridTextColumn Header="车架号" Binding="{Binding VinNo}" />
+                <DataGridTextColumn Header="车型名称" Binding="{Binding CarTypeName}" />
+                <DataGridTextColumn Header="年份" Binding="{Binding Year}" />
+                <DataGridTemplateColumn x:Name="UserAction" Header="操作" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="BtnAction" 
+                                    Command="{Binding DataContext.OpenUpdateCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    编辑
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
