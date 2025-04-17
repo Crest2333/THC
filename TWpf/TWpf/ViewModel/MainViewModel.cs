@@ -50,6 +50,12 @@ namespace TWpf.ViewModel
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new Table())
             });
+            NavItems.Add(new NavigationItem
+            {
+                Title = "Tcp",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new TcpView())
+            });
         }
 
 
