@@ -37,12 +37,12 @@ namespace TWpf.ViewModel
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new BarcodeScanner())
             });
-             NavItems.Add(new NavigationItem
-             {
-                 Title = "欧姆龙",
-                 IconPath = "home.png",
-                 Command = new RelayCommand(() => CurrentView = new OmroView())
-             });
+            NavItems.Add(new NavigationItem
+            {
+                Title = "欧姆龙",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new OmroView())
+            });
 
             NavItems.Add(new NavigationItem
             {
@@ -55,6 +55,13 @@ namespace TWpf.ViewModel
                 Title = "Tcp",
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new TcpView())
+            });
+
+            NavItems.Add(new NavigationItem
+            {
+                Title = "ModbusRtu",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new ModbusRtuView())
             });
         }
 
