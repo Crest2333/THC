@@ -1,0 +1,116 @@
+﻿<Page x:Class="TWpf.Views.ModbusTemperatureView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TWpf.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ModbusTemperatureView">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <GroupBox
+             Header="通信参数">
+            <Grid>
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <TextBlock Text="端口号：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                    <TextBox Width="100"  Margin="0 10 10 10" Text="{Binding Port}"></TextBox>
+                    <TextBlock Text="波特率：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                    <TextBox Width="100"  Margin="0 10 10 10" Text="{Binding Rate}"></TextBox>
+                   
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Margin="0 10 10 10" Command="{Binding ConnectCommand}">建立连接</Button>
+                    <Button Margin="0 10 10 10">断开连接</Button>
+                </StackPanel>
+            </Grid>
+
+        </GroupBox>
+        <UniformGrid Grid.Row="1">
+            <GroupBox
+     Header="温湿度模块1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="湿度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureData1.Temperature}"></TextBox>
+                        <TextBlock Text="%" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="温度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding TemperatureData1.Humidity}"></TextBox>
+                        <TextBlock Text="℃" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox
+     Header="温湿度模块2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="湿度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="%" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="温度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="℃" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox
+     Header="温湿度模块3">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="湿度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="%" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="温度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="℃" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="温湿度模块4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="湿度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="%" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock Text="温度值" VerticalAlignment="Center" Margin="0 0 10 0"></TextBlock>
+                        <TextBox Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                        <TextBlock Text="℃" VerticalAlignment="Center" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </UniformGrid>
+        <GroupBox Header="系统日志" Grid.Row="2">
+            <ListBox></ListBox>
+        </GroupBox>
+    </Grid>
+</Page>

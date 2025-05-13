@@ -63,6 +63,13 @@ namespace TWpf.ViewModel
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new ModbusRtuView())
             });
+
+            NavItems.Add(new NavigationItem
+            {
+                Title = "Modbus温湿度采集",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new ModbusTemperatureView())
+            });
         }
 
 
