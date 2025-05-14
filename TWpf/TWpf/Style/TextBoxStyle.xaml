@@ -9,6 +9,7 @@
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   Background="{TemplateBinding Background}"
+                            Height="{TemplateBinding Height}"
                   CornerRadius="2"
                   SnapsToDevicePixels="True">
                         <ScrollViewer x:Name="PART_ContentHost"

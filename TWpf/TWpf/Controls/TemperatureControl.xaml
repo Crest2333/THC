@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="TWpf.Controls.TemperatureControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TWpf.Controls"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <TextBlock>
+                <Run Text="温度："></Run>
+                <Run Text="{Binding Temperature.Temperature, RelativeSource={RelativeSource AncestorType=UserControl}}"></Run>
+                 <Run Text="℃"></Run>
+
+        </TextBlock>
+        <TextBlock TextAlignment="Right">
+          <Run Text="时间："></Run>
+          <Run Text="{Binding Temperature.Time, RelativeSource={RelativeSource AncestorType=UserControl},StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"></Run>   
+        </TextBlock>
+
+        <lvc:CartesianChart Grid.Row="1" Series="{Binding Series}" x:Name="TemperatureChart">
+
+        </lvc:CartesianChart>
+
+        <TextBlock Text="湿度" Grid.Row="2" Margin="0 5 0 0">
+            <Run Text="湿度："></Run>
+            <Run Text="{Binding Temperature.Humidity, RelativeSource={RelativeSource AncestorType=UserControl}}"></Run>
+                             <Run Text="%"></Run>
+
+        </TextBlock>
+        <lvc:CartesianChart Grid.Row="3" Series="{Binding Series}">
+
+        </lvc:CartesianChart>
+
+
+    </Grid>
+</UserControl>
