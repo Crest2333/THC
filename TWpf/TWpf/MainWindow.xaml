@@ -1,11 +1,12 @@
-﻿<Window x:Class="TWpf.MainWindow"
+<Window x:Class="TWpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+         Background="#F9FAFB">
     <Window.Resources>
         <!-- 导航项样式 -->
         <Style x:Key="NavItemStyle" TargetType="ListBoxItem">
@@ -13,16 +14,14 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Border x:Name="Border" 
+                            CornerRadius="2"
                             Background="Transparent"
-                            Padding="10 5" Height="30">
+                              Margin="5 5 5 0">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <!-- 图标 -->
-                                <Image Source="{Binding IconPath}"
-                                   Width="20" Height="20"
-                                   Margin="0 0 8 0"/>
+                               
                                 <!-- 标题 -->
                                 <TextBlock Text="{Binding Title}"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center" Padding="12"/>
                             </StackPanel>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -31,6 +30,7 @@
                                 <Setter TargetName="Border" 
                                     Property="Background" 
                                     Value="#F0F0F0"/>
+                                <Setter TargetName="Border" Property="Cursor" Value="Hand"></Setter>
                             </Trigger>
                             <!-- 选中状态 -->
                             <Trigger Property="IsSelected" Value="True">
@@ -55,6 +55,8 @@
 
         <Border Grid.Column="0" BorderThickness="1">
             <ListBox x:Name="NavList" 
+                     BorderThickness="0"
+                     Background="Transparent"
                  ItemsSource="{Binding NavItems}"
                  ItemContainerStyle="{StaticResource NavItemStyle}"
                  SelectionMode="Single"
@@ -70,7 +72,7 @@
             </ListBox>
         </Border>
         <Border Grid.Column="1" BorderThickness="1" >
-            <Frame Content="{Binding CurrentView}"></Frame>
+            <Frame Content="{Binding CurrentView}" Background="#FFFFFF"></Frame>
         </Border>
     </Grid>
 </Window>
