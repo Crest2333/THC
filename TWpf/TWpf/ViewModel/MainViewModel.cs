@@ -70,6 +70,13 @@ namespace TWpf.ViewModel
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new ModbusTemperatureView())
             });
+
+            NavItems.Add(new NavigationItem
+            {
+                Title = "ModbusTcp",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new ModbusTcpView())
+            });
         }
 
 
