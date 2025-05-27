@@ -21,7 +21,7 @@
             <Grid>
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <TextBlock Text="端口号：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
-                    <TextBox Width="100"  Margin="0 10 10 10" Text="{Binding Port}"></TextBox>
+                    <ComboBox Width="100"  Margin="0 10 10 10"  ItemsSource="{Binding PortNames}" SelectedItem="{Binding Port}" VerticalAlignment="Center"></ComboBox>
                     <TextBlock Text="波特率：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
                     <TextBox Width="100"  Margin="0 10 10 10" Text="{Binding Rate}"></TextBox>
 
@@ -33,16 +33,26 @@
             </Grid>
 
         </GroupBox>
-        <UniformGrid Grid.Row="1" Rows="1" Columns="2">
-            <GroupBox
-     Header="温湿度模块1">
-                <controls:TemperatureControl Temperature="{Binding TemperatureData1}"></controls:TemperatureControl>
-            </GroupBox>
-            <GroupBox
-     Header="温湿度模块2">
-                <controls:TemperatureControl Temperature="{Binding TemperatureData2}"></controls:TemperatureControl>
-            </GroupBox>
-        </UniformGrid>
+        <ListBox ItemsSource="{Binding TemperatureDatas}" Grid.Row="1" >
+            <ListBox.ItemsPanel >
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <controls:TemperatureControl Temperature="{Binding}" ></controls:TemperatureControl>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
         <GroupBox Header="系统日志" Grid.Row="2">
             <ListBox ItemsSource="{Binding Messages}">
                 <ListBox.ItemContainerStyle>

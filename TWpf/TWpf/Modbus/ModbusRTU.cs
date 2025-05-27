@@ -22,6 +22,9 @@ namespace RTU
 
         private int Timeout { get; set; } = 1000;
 
+        public bool IsOpen => _serialPort.IsOpen;
+
+
         /// <summary>
         /// 
         /// </summary>
