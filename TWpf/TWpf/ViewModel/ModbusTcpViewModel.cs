@@ -53,6 +53,7 @@ namespace TWpf.ViewModel
             ReceivedData = new ObservableCollection<ModbusTcpMessage>();
             LogItems = new ObservableCollection<LogItem>();
             DataItems = new ObservableCollection<DeviceData>();
+            SelectedFunctionCode = FunctionType.ReadOutputRegister;
         }
 
         private void AddLog(string message)

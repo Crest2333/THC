@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
@@ -156,7 +157,7 @@ namespace RTU
         {
             var request = BuildReadRequest(slaveId, functionType, startAddress, numberOfPoints);
             int expectedResponseLength = functionType is FunctionType.ReadInputCoil or FunctionType.ReadOutputCoil ? 5 + (numberOfPoints + 7) / 8 : 5 + 2 * numberOfPoints;
-
+            Log.Logger.Information("发送串口消息|{Request}", BitConverter.ToString(request));
             return Send(request, expectedResponseLength);
         }
 

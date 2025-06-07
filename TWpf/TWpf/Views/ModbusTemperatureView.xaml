@@ -22,6 +22,8 @@
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <TextBlock Text="端口号：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
                     <ComboBox Width="100"  Margin="0 10 10 10"  ItemsSource="{Binding PortNames}" SelectedItem="{Binding Port}" VerticalAlignment="Center"></ComboBox>
+                    <TextBlock Text="站号：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
+                    <TextBox Width="100"  Margin="0 10 10 10" Text="{Binding SalveId}"></TextBox>
                     <TextBlock Text="波特率：" VerticalAlignment="Center" HorizontalAlignment="Right"></TextBlock>
                     <TextBox Width="100"  Margin="0 10 10 10" Text="{Binding Rate}"></TextBox>
 

@@ -26,7 +26,7 @@ namespace TWpf.Views
         public ModbusRtuView()
         {
             InitializeComponent();
-            var modbus = new ModbusRTU("COM3", 9600, Parity.None, 8, StopBits.One);
+            var modbus = new ModbusRTU("COM4", 9600, Parity.None, 8, StopBits.One);
             modbus.Open();
 
             DataContext = new ModbusRTUViewModel(modbus, this.Dispatcher);

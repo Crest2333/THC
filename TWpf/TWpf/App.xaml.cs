@@ -1,5 +1,6 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using Serilog;
 using SkiaSharp;
 using System.Configuration;
 using System.Data;
@@ -15,6 +16,11 @@ namespace TWpf
         protected override void OnStartup(StartupEventArgs e)
         {
             LiveCharts.Configure(config => config.HasGlobalSKTypeface(SKFontManager.Default.MatchCharacter('汉')));
+            Log.Logger = new LoggerConfiguration().WriteTo.File(";logs/log.txt", retainedFileCountLimit: 7,
+                 rollingInterval: RollingInterval.Day)
+                .MinimumLevel.Information()
+                .CreateLogger();
+
             base.OnStartup(e);
         }
     }

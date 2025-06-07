@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using TWpf.Common;
 using TWpf.Modbus;
 using LiveChartsCore.Defaults;
+using Serilog;
 
 namespace TWpf.ViewModel
 {
@@ -58,11 +59,11 @@ namespace TWpf.ViewModel
                     TextSize=14,
                     NameTextSize=16,
                     Labeler = value => new DateTime((long)value).ToString("HH:mm:ss"), //
-                    UnitWidth = TimeSpan.FromSeconds(15).Ticks, //显示单位
-                    MinStep = TimeSpan.FromSeconds(15).Ticks,//最小显示单位
+                    UnitWidth = TimeSpan.FromMinutes(1).Ticks, //显示单位
+                    MinStep = TimeSpan.FromMinutes(1).Ticks,//最小显示单位
                     ForceStepToMin = true,
                     SeparatorsAtCenter = false,
-                    MinLimit = DateTime.Now.AddSeconds(-30).Ticks,
+                    MinLimit = DateTime.Now.AddMinutes(-10).Ticks,
                     MaxLimit = DateTime.Now.Ticks//X轴最大显示
                 }
             };
@@ -72,11 +73,12 @@ namespace TWpf.ViewModel
             {
                 new Axis
                 {
+                    MinStep=1,
                     TextSize=14,
                     NameTextSize=16,
                     Name = "温度(℃)",
-                    MinLimit = -40,
-                    MaxLimit = 85
+                    MinLimit = -10,
+                    MaxLimit = 50
                 }
             };
 
@@ -85,6 +87,7 @@ namespace TWpf.ViewModel
             {
                 new Axis
                 {
+                    MinStep = 1,
                     TextSize=14,
                     NameTextSize=16,
                     Name = "湿度(%)",
@@ -139,14 +142,14 @@ namespace TWpf.ViewModel
             humidityValues.Add(new ObservablePoint(Time.Ticks, humidity));
 
             // 保持最多30个数据点
-            if (tempValues.Count > 30)
+            if (tempValues.Count > 60 * 60 * 12)
             {
                 tempValues.RemoveAt(0);
                 humidityValues.RemoveAt(0);
             }
 
             // 更新X轴范围
-            DateTimeAxes[0].MinLimit = Time.AddSeconds(-30).Ticks;
+            DateTimeAxes[0].MinLimit = Time.AddMinutes(-10).Ticks;
             DateTimeAxes[0].MaxLimit = Time.Ticks;
         }
 
@@ -166,12 +169,16 @@ namespace TWpf.ViewModel
         {
             _rtU = new ModbusRTUAdvance();
             _dispatcher = dispatcher;
-            TemperatureDatas = new ObservableCollection<TemperatureData> { new TemperatureData(1), new TemperatureData(2) };
+            TemperatureDatas = new ObservableCollection<TemperatureData> { new TemperatureData(1) };
             Messages = new ObservableCollection<TempMessage>();
             PortNames = SerialPort.GetPortNames().ToList();
+            SalveId = 1;
+            Rate = 9600;
         }
         [ObservableProperty]
         private string port;
+        [ObservableProperty]
+        private int salveId;
         [ObservableProperty]
         private int? rate;
 
@@ -237,7 +244,7 @@ namespace TWpf.ViewModel
                 try
                 {
                     await Task.Delay(1000);
-                    var res = _rtU.ReadRegisters(1, 0, 2);
+                    var res = _rtU.ReadRegisters((byte)SalveId, 0, 2);
                     _dispatcher.Invoke(() =>
                     {
                         var temperature = SensorDataGenerator.ParseTemperature(res.Data);
@@ -245,18 +252,10 @@ namespace TWpf.ViewModel
                         var data = TemperatureDatas.First(c => c.SalveId == 1);
                         data.SetTemperature((double)temperature, (double)humidity);
                     });
-
-                    var res2 = _rtU.ReadRegisters(2, 0, 2);
-                    _dispatcher.Invoke(() =>
-                    {
-                        var temperature = SensorDataGenerator.ParseTemperature(res2.Data);
-                        var humidity = SensorDataGenerator.ParseHumidity(res2.Data);
-                        var data = TemperatureDatas.First(c => c.SalveId == 2);
-                        data.SetTemperature((double)temperature, (double)humidity);
-                    });
                 }
                 catch (Exception ex)
                 {
+                    Log.Logger.Error(ex, "读取温湿度异常");
                     _dispatcher.Invoke(() =>
                     {
                         AddMessage("读取异常");
