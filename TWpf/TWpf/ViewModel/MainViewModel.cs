@@ -77,6 +77,19 @@ namespace TWpf.ViewModel
                 IconPath = "home.png",
                 Command = new RelayCommand(() => CurrentView = new ModbusTcpView())
             });
+
+            NavItems.Add(new NavigationItem
+            {
+                Title = "SiemensS7 1500",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new SiemensS7View())
+            });
+            NavItems.Add(new NavigationItem
+            {
+                Title = "Can通信",
+                IconPath = "home.png",
+                Command = new RelayCommand(() => CurrentView = new CanView())
+            });
         }
 
 

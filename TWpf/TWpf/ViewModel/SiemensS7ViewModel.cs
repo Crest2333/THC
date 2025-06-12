@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TWpf.Plc
+namespace TWpf.ViewModel
 {
-    /// <summary>
-    /// HostLink 协议
-    /// </summary>
-    internal class HostLink
+    class SiemensS7ViewModel
     {
-
     }
 }

@@ -1,0 +1,228 @@
+﻿<Window x:Class="TWpf.Views.SCADAWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TWpf.Views"
+        xmlns:converts="clr-namespace:TWpf.Converter"
+        mc:Ignorable="d"
+        Title="SCADAWindow" Height="450" Width="800"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:controls="clr-namespace:TWpf.Controls"
+        >
+    <!--<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <controls:MyGauge></controls:MyGauge>
+            </StackPanel>
+        </Grid>
+    </Grid>-->
+
+    <Window.Resources>
+        <!-- 渐变背景画刷 -->
+        <LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#1A1A2E" Offset="0"/>
+            <GradientStop Color="#16213E" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!-- 仪表指针样式 -->
+        <Style x:Key="GaugePointerStyle" TargetType="Polygon">
+            <Setter Property="Fill" Value="#E94560"/>
+            <Setter Property="Stroke" Value="#FF6B6B"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        </Style>
+
+        <!-- 仪表刻度样式 -->
+        <Style x:Key="GaugeTickStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="#FFFFFF"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+        </Style>
+
+        <!-- 仪表标签样式 -->
+        <Style x:Key="GaugeLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- 数字显示样式 -->
+        <Style x:Key="DigitalDisplayStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E94560"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 仪表盘区域 -->
+        <Grid Grid.Row="0" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 速度表 -->
+            <Canvas Grid.Column="0" x:Name="SpeedGaugeCanvas" Width="300" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- 刻度和标签 -->
+                <Canvas.Resources>
+                    <converts:GaugeTickConverter x:Key="GaugeTickConverter"/>
+                    <converts:GaugeLabelConverter x:Key="GaugeLabelConverter"/>
+                </Canvas.Resources>
+                <!-- 仪表背景 -->
+                <Ellipse Width="280" Height="280" Stroke="#4D4C7D" StrokeThickness="10" Canvas.Left="10" Canvas.Top="10"/>
+                <Ellipse Width="260" Height="260" Stroke="#4D4C7D" StrokeThickness="1" Canvas.Left="20" Canvas.Top="20"/>
+                <Ellipse Width="240" Height="240" Fill="#1A1A2E" Canvas.Left="30" Canvas.Top="30"/>
+
+
+                <!-- 生成速度表刻度和标签 -->
+                <ItemsControl ItemsSource="{Binding SpeedTicks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Canvas>
+                                <Line X1="150" Y1="20" X2="150" Y2="40" 
+                                      StrokeThickness="{Binding Thickness}"
+                                      Stroke="#FFFFFF"
+                                      RenderTransformOrigin="0.5,1.5"
+                                      Canvas.Left="{Binding Converter={StaticResource GaugeTickConverter}, Path=X}"
+                                      Canvas.Top="{Binding Converter={StaticResource GaugeTickConverter}, Path=Y}">
+                                    <Line.RenderTransform>
+                                        <RotateTransform Angle="{Binding Angle}"/>
+                                    </Line.RenderTransform>
+                                </Line>
+                                <TextBlock Text="{Binding Label}" 
+                                           FontSize="{Binding FontSize}"
+                                           Canvas.Left="{Binding Converter={StaticResource GaugeLabelConverter}, Path=X}"
+                                           Canvas.Top="{Binding Converter={StaticResource GaugeLabelConverter}, Path=Y}">
+                                    <TextBlock.RenderTransform>
+                                        <RotateTransform Angle="{Binding Angle}"/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Canvas>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- 指针 -->
+                <Polygon Points="150,40 155,150 150,140 145,150" 
+                         Style="{StaticResource GaugePointerStyle}"
+                         RenderTransformOrigin="0.5,0.8">
+                    <Polygon.RenderTransform>
+                        <RotateTransform x:Name="SpeedPointerRotation" Angle="{Binding SpeedValue, Converter={StaticResource AngleConverter}}"/>
+                    </Polygon.RenderTransform>
+                </Polygon>
+
+                <!-- 中心点 -->
+                <Ellipse Width="15" Height="15" Fill="#E94560" Canvas.Left="142.5" Canvas.Top="142.5"/>
+                <Ellipse Width="8" Height="8" Fill="#1A1A2E" Canvas.Left="146" Canvas.Top="146"/>
+
+                <!-- 标题 -->
+                <TextBlock Text="速度 (km/h)" Foreground="#FFFFFF" FontSize="16" 
+                           Canvas.Left="150" Canvas.Top="220" HorizontalAlignment="Center" Width="100"/>
+
+                <!-- 数字显示 -->
+                <TextBlock Text="{Binding SpeedValue, StringFormat={}{0:0} km/h}" 
+                           Style="{StaticResource DigitalDisplayStyle}"
+                           Canvas.Left="150" Canvas.Top="180" Width="100"/>
+            </Canvas>
+
+            <!-- 转速表 -->
+            <Canvas Grid.Column="1" x:Name="RpmGaugeCanvas" Width="300" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <!-- 刻度和标签 -->
+                <Canvas.Resources>
+                    <converts:GaugeTickConverter x:Key="GaugeTickConverter"/>
+                    <converts:GaugeLabelConverter x:Key="GaugeLabelConverter"/>
+                </Canvas.Resources>
+
+                <!-- 仪表背景 -->
+                <Ellipse Width="280" Height="280" Stroke="#4D4C7D" StrokeThickness="10" Canvas.Left="10" Canvas.Top="10"/>
+                <Ellipse Width="260" Height="260" Stroke="#4D4C7D" StrokeThickness="1" Canvas.Left="20" Canvas.Top="20"/>
+                <Ellipse Width="240" Height="240" Fill="#1A1A2E" Canvas.Left="30" Canvas.Top="30"/>
+
+                <!-- 生成转速表刻度和标签 -->
+                <ItemsControl ItemsSource="{Binding RpmTicks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Canvas>
+                                <Line X1="150" Y1="20" X2="150" Y2="40" 
+                                      StrokeThickness="{Binding Thickness}"
+                                      Stroke="{Binding Color}"
+                                      RenderTransformOrigin="0.5,1.5"
+                                      Canvas.Left="{Binding Converter={StaticResource GaugeTickConverter}, Path=X}"
+                                      Canvas.Top="{Binding Converter={StaticResource GaugeTickConverter}, Path=Y}">
+                                    <Line.RenderTransform>
+                                        <RotateTransform Angle="{Binding Angle}"/>
+                                    </Line.RenderTransform>
+                                </Line>
+                                <TextBlock Text="{Binding Label}" 
+                                           FontSize="{Binding FontSize}"
+                                           Canvas.Left="{Binding Converter={StaticResource GaugeLabelConverter}, Path=X}"
+                                           Canvas.Top="{Binding Converter={StaticResource GaugeLabelConverter}, Path=Y}">
+                                    <TextBlock.RenderTransform>
+                                        <RotateTransform Angle="{Binding Angle}"/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Canvas>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- 指针 -->
+                <Polygon Points="150,40 155,150 150,140 145,150" 
+                         Style="{StaticResource GaugePointerStyle}"
+                         RenderTransformOrigin="0.5,0.8">
+                    <Polygon.RenderTransform>
+                        <RotateTransform x:Name="RpmPointerRotation" Angle="{Binding RpmValue, Converter={StaticResource RpmAngleConverter}}"/>
+                    </Polygon.RenderTransform>
+                </Polygon>
+
+                <!-- 中心点 -->
+                <Ellipse Width="15" Height="15" Fill="#E94560" Canvas.Left="142.5" Canvas.Top="142.5"/>
+                <Ellipse Width="8" Height="8" Fill="#1A1A2E" Canvas.Left="146" Canvas.Top="146"/>
+
+                <!-- 标题 -->
+                <TextBlock Text="转速 (RPM)" Foreground="#FFFFFF" FontSize="16" 
+                           Canvas.Left="150" Canvas.Top="220" HorizontalAlignment="Center" Width="100"/>
+
+                <!-- 数字显示 -->
+                <TextBlock Text="{Binding RpmValue, StringFormat={}{0:0.0}k RPM}" 
+                           Style="{StaticResource DigitalDisplayStyle}"
+                           Canvas.Left="150" Canvas.Top="180" Width="100"/>
+            </Canvas>
+        </Grid>
+
+        <!-- 控制区域 -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <Button Content="加速" Width="100" Height="40" Margin="10" 
+                    Background="#E94560" Foreground="White"
+                    Command="{Binding AccelerateCommand}"/>
+            <Button Content="减速" Width="100" Height="40" Margin="10" 
+                    Background="#0F3460" Foreground="White"
+                    Command="{Binding DecelerateCommand}"/>
+            <Button Content="重置" Width="100" Height="40" Margin="10" 
+                    Background="#1A1A2E" Foreground="White"
+                    Command="{Binding ResetCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>
