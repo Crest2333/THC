@@ -1,0 +1,110 @@
+﻿<Page x:Class="Normalizing.Views.Pages.MachineToolPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Normalizing.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MachineToolPage"
+      xmlns:vm="clr-namespace:Normalizing.ViewModels.Pages"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      d:DataContext="{d:DesignInstance vm:MachineToolViewModel}"
+      >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <ui:DataGrid ItemsSource="{Binding Axes}"></ui:DataGrid>
+        
+        <UniformGrid Grid.Row="1">
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="轨顶温度(℃)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="轨顶流量(L/min)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="Y轴跟踪(mm)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+
+
+
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="轨脚温度(℃)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="轨腰流量(L/min)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="Y轴跟踪(mm)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="内轨脚温度(℃)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="轨底流量(L/min)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="喷风压力(Mpa)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+
+
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="冷却温度(℃)"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="备用"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+            <Border>
+                <UniformGrid Columns="1">
+                    <Label Content="备用"  HorizontalContentAlignment="Center"    />
+                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
+                </UniformGrid>
+            </Border>
+
+        </UniformGrid>
+
+        <UniformGrid>
+            <Button Command="{Binding GetAxisDataCommand}">加载</Button>
+        </UniformGrid>
+        
+    </Grid>
+</Page>
