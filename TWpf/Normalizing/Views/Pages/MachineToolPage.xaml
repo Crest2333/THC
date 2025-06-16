@@ -18,93 +18,115 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <ui:DataGrid ItemsSource="{Binding Axes}"></ui:DataGrid>
+        <ui:Card>
+
+            <UniformGrid Columns="3">
+                <ui:Card Background="#EFF6FF" Margin="0 0 20 0">
+                    <StackPanel Orientation="Vertical" MinHeight="250">
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="SkyBlue" Margin="0 5 0 5">X轴</TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际位置</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Location}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际速度 (mm/s)</TextBlock>
+                        <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">目标位置</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.TargetLocation}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">目标速度</TextBlock>
+                        <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.TargetSpeed}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际电流 (A)</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.ActualCurrent}"></TextBlock>
+                    </StackPanel>
+                </ui:Card>
+                <ui:Card Background="#F0FDF4" Margin="0 0 20 0">
+                    <StackPanel Orientation="Vertical" MinHeight="250">
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#15803D" Margin="0 5 0 5">Y轴</TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际位置</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding YAxis.Location}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际速度 (mm/s)</TextBlock>
+                        <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding YAxis.Speed}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">目标位置</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding YAxis.TargetLocation}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">目标速度</TextBlock>
+                        <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding YAxis.TargetSpeed}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际电流 (A)</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding YAxis.ActualCurrent}"></TextBlock>
+                    </StackPanel>
+                </ui:Card>
+                <ui:Card Background="#FAF5FF">
+                    <StackPanel Orientation="Vertical" MinHeight="250">
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="SkyBlue" Margin="0 5 0 5">Z轴</TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际位置</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Location}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际速度 (mm/s)</TextBlock>
+                        <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Speed}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">目标位置</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.TargetLocation}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">目标速度</TextBlock>
+                        <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.TargetSpeed}"></TextBlock>
+                        <TextBlock Margin="0 5 0 0">实际电流 (A)</TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.ActualCurrent}"></TextBlock>
+                    </StackPanel>
+                </ui:Card>
+            </UniformGrid>
+
+
+
+        </ui:Card>
+        <ui:Card Grid.Row="1" Margin="0 10 0 0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock></TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ui:Card Background="#FFF7ED" Margin="0 0 10 0" Grid.Column="0">
+                        <StackPanel Orientation="Vertical" MinHeight="250">
+                            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#C6410C" Margin="0 5 0 5">温度传感器</TextBlock>
+                            <TextBlock>轨顶温度(℃)</TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Location}"></TextBlock>
+                            <TextBlock>轨脚温度(℃)</TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                            <TextBlock>内轨脚温度(℃)</TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                            <TextBlock>冷却温度(℃)</TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                        </StackPanel>
+                    </ui:Card>
+                    <ui:Card Background="#F0FDFA" Margin="0 0 10 0" Grid.Column="1">
+                        <StackPanel Orientation="Vertical" MinHeight="250">
+                            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#0F766E" Margin="0 5 0 5">流量传感器</TextBlock>
+                            <TextBlock>轨顶流量(L/min)</TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Location}"></TextBlock>
+                            <TextBlock>轨腰流量(L/min)</TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Speed}"></TextBlock>
+                            <TextBlock>轨底流量(L/min)</TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.ActualCurrent}"></TextBlock>
+                        </StackPanel>
+                    </ui:Card>
+
+                    <ui:Card Background="#EEF2FF" Grid.Column="2">
+
+                        <StackPanel Orientation="Vertical" MinHeight="250">
+                            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4338CA" Margin="0 5 0 5">位移传感器</TextBlock>
+                            <TextBlock>Y轴跟踪(mm)</TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Location}"></TextBlock>
+                            <TextBlock>Z轴跟踪(mm)</TextBlock>
+                        </StackPanel>
+
+                    </ui:Card>
+                </Grid>
+            </StackPanel>
         
-        <UniformGrid Grid.Row="1">
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="轨顶温度(℃)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="轨顶流量(L/min)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="Y轴跟踪(mm)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
 
 
+        </ui:Card>
 
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="轨脚温度(℃)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="轨腰流量(L/min)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="Y轴跟踪(mm)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
+        <GroupBox Header="执行状态" Grid.Row="2">
+            <UniformGrid >
+                <Button Command="{Binding GetAxisDataCommand}">加载</Button>
+            </UniformGrid>
+        </GroupBox>
 
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="内轨脚温度(℃)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="轨底流量(L/min)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="喷风压力(Mpa)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-
-
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="冷却温度(℃)"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="备用"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-            <Border>
-                <UniformGrid Columns="1">
-                    <Label Content="备用"  HorizontalContentAlignment="Center"    />
-                    <Label Content="{Binding Temperature1}"    HorizontalContentAlignment="Center"    />
-                </UniformGrid>
-            </Border>
-
-        </UniformGrid>
-
-        <UniformGrid>
-            <Button Command="{Binding GetAxisDataCommand}">加载</Button>
-        </UniformGrid>
-        
     </Grid>
 </Page>

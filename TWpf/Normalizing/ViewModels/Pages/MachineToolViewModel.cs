@@ -14,43 +14,63 @@ namespace Normalizing.ViewModels.Pages
         public MachineToolViewModel(SiemensManager manager)
         {
             _manager = manager;
+            xAxis = new Axis
+            {
+                Name = "X轴",
+                Speed = 1,
+                TargetSpeed = 1,
+                ActualCurrent = 1,
+                Location = 1,
+                TargetLocation = 1
+            };
+            yAxis = new Axis
+            {
+                Name = "Y轴",
+                Speed = 1,
+                TargetSpeed = 1,
+                ActualCurrent = 1,
+                Location = 1,
+                TargetLocation = 1
+            };
+            zAxis = new Axis
+            {
+                Name = "Z轴",
+                Speed = 1,
+                TargetSpeed = 1,
+                ActualCurrent = 1,
+                Location = 1,
+                TargetLocation = 1
+            };
         }
         public ObservableCollection<Axis> Axes { get; set; }
         [ObservableProperty]
         private decimal temperature1;
         private readonly SiemensManager _manager;
 
-        private readonly Axis xAxis;
-        private readonly Axis yAxis;
-        private readonly Axis zAxis;
+        [ObservableProperty]
+        private  Axis xAxis;
+        [ObservableProperty]
+        private  Axis yAxis;
+        [ObservableProperty]
+        private  Axis zAxis;
         public MachineToolViewModel()
         {
-            xAxis = new Axis
-            {
-                Name = "X轴"
-            };
-            yAxis = new Axis
-            {
-                Name = "Y轴"
-            };
-            zAxis = new Axis
-            {
-                Name = "Z轴"
-            };
-            Axes = new ObservableCollection<Axis>
-            {
-               xAxis,
-               yAxis,
-               zAxis
-            };
+           
         }
 
         [RelayCommand]
         public async Task GetAxisData()
         {
-            await _manager.OpenAsync();
-
-            var res = await _manager.Plc.ReadBytesAsync(S7.Net.DataType.DataBlock, 1, 2, 12);
+            var axisInfo = await _manager.ReadAxisInfoAsync();
+            if (axisInfo != null)
+            {
+                Axes = new ObservableCollection<Axis>
+                {
+                   axisInfo.XAxis,
+                   axisInfo.YAxis,
+                   axisInfo.ZAxis
+                };
+            }
 
         }
     }

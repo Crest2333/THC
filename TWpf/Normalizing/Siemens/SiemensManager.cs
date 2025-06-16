@@ -1,4 +1,5 @@
-﻿using S7.Net;
+﻿using Normalizing.Models;
+using S7.Net;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,9 +13,31 @@ namespace Normalizing.Siemens
     {
         public SiemensManager()
         {
-            Plc = new Plc(CpuType.S71200, "192.168.0.6", 0, 1);
+            Plc = new Plc(CpuType.S71500, "192.168.0.14", 0, 1);
         }
         public Plc Plc { get; }
+
+        public async Task<AxisInfo> ReadAxisInfoAsync()
+        {
+            return await Task.FromResult(new AxisInfo
+            {
+                XAxis = new Axis
+                {
+                    Name = "X轴",
+                    Speed = 1,
+                },
+                YAxis = new Axis
+                {
+                    Name = "Y轴",
+                    Speed = 2,
+                },
+                ZAxis = new Axis
+                {
+                    Name = "Z轴",
+                    Speed = 3,
+                }
+            });
+        }
 
         public void Dispose()
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Normalizing.Models
 {
-    public class Axis
+    public partial class Axis : ObservableObject
     {
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Normalizing.Models
         /// 目标位置
         /// </summary>
         [Description("目标位置")]
-        public decimal TargetLocation  { get; set; }
+        public decimal TargetLocation { get; set; }
 
         /// <summary>
         /// 目标速度
