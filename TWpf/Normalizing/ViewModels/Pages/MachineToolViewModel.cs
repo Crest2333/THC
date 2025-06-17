@@ -1,4 +1,4 @@
-﻿using Normalizing.Models;
+using Normalizing.Models;
 using Normalizing.Siemens;
 using System;
 using System.Collections.Generic;
@@ -11,8 +11,11 @@ namespace Normalizing.ViewModels.Pages
 {
     public partial class MachineToolViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private DeviceStatus status;
         public MachineToolViewModel(SiemensManager manager)
         {
+            status=DeviceStatus.Normal;
             _manager = manager;
             xAxis = new Axis
             {
