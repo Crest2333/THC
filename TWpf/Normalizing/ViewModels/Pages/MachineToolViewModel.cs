@@ -15,7 +15,7 @@ namespace Normalizing.ViewModels.Pages
         private DeviceStatus status;
         public MachineToolViewModel(SiemensManager manager)
         {
-            status=DeviceStatus.Normal;
+            status = DeviceStatus.Normal;
             _manager = manager;
             xAxis = new Axis
             {
@@ -51,14 +51,22 @@ namespace Normalizing.ViewModels.Pages
         private readonly SiemensManager _manager;
 
         [ObservableProperty]
-        private  Axis xAxis;
+        private Axis xAxis;
         [ObservableProperty]
-        private  Axis yAxis;
+        private Axis yAxis;
         [ObservableProperty]
-        private  Axis zAxis;
+        private Axis zAxis;
+
+        [ObservableProperty]
+        private TemperatureSensor temperatureSensor;
+        [ObservableProperty]
+        private FlowSensor flowSensor;
+        [ObservableProperty]
+        private DisplacementSensor displacementSensor;
+
         public MachineToolViewModel()
         {
-           
+
         }
 
         [RelayCommand]
@@ -67,14 +75,13 @@ namespace Normalizing.ViewModels.Pages
             var axisInfo = await _manager.ReadAxisInfoAsync();
             if (axisInfo != null)
             {
-                Axes = new ObservableCollection<Axis>
-                {
-                   axisInfo.XAxis,
-                   axisInfo.YAxis,
-                   axisInfo.ZAxis
-                };
+                XAxis = axisInfo.XAxis;
+                YAxis = axisInfo.YAxis;
+                ZAxis = axisInfo.ZAxis;
             }
-
+            TemperatureSensor = await _manager.GetTemperatureSensorAsync();
+            FlowSensor = await _manager.GetFlowSensorAsync();
+            DisplacementSensor = await _manager.GetDisplacementSensorAsync();
         }
     }
 }

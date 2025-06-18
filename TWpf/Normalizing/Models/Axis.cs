@@ -20,30 +20,30 @@ namespace Normalizing.Models
         /// 实际位置
         /// </summary>
         [Description("实际位置")]
-        public decimal Location { get; set; }
+        public float Location { get; set; }
 
         /// <summary>
         /// 实际速度
         /// </summary>
         [Description("实际速度")]
-        public decimal Speed { get; set; }
+        public float Speed { get; set; }
 
         /// <summary>
         /// 目标位置
         /// </summary>
         [Description("目标位置")]
-        public decimal TargetLocation { get; set; }
+        public float TargetLocation { get; set; }
 
         /// <summary>
         /// 目标速度
         /// </summary>
         [Description("目标速度")]
-        public decimal TargetSpeed { get; set; }
+        public float TargetSpeed { get; set; }
 
         /// <summary>
         /// 实际电流
         /// </summary>
         [Description("实际电流")]
-        public decimal ActualCurrent { get; set; }
+        public float ActualCurrent { get; set; }
     }
 }
