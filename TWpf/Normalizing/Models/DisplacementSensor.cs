@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Normalizing.Models
 {
-    class DisplacementSensor
+    public class DisplacementSensor
     {
+        /// <summary>
+        /// X轴
+        /// </summary>
+        public float X { get; set; }
+
+        /// <summary>
+        /// Y轴
+        /// </summary>
+        public float Y { get; set; }
     }
 }

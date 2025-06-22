@@ -1,4 +1,5 @@
 using Normalizing.Models;
+using Normalizing.Services;
 using Normalizing.Siemens;
 using System;
 using System.Collections.Generic;
@@ -9,46 +10,40 @@ using System.Threading.Tasks;
 
 namespace Normalizing.ViewModels.Pages
 {
-    public partial class MachineToolViewModel : ObservableObject
+    public partial class MachineToolViewModel : ObservableObject, IDisposable
     {
-        [ObservableProperty]
-        private DeviceStatus status;
-        public MachineToolViewModel(SiemensManager manager)
+        public MachineToolViewModel(IDeviceManager manager)
         {
-            status = DeviceStatus.Normal;
+
             _manager = manager;
             xAxis = new Axis
             {
                 Name = "X轴",
-                Speed = 1,
-                TargetSpeed = 1,
-                ActualCurrent = 1,
-                Location = 1,
-                TargetLocation = 1
+
             };
             yAxis = new Axis
             {
                 Name = "Y轴",
-                Speed = 1,
-                TargetSpeed = 1,
-                ActualCurrent = 1,
-                Location = 1,
-                TargetLocation = 1
+
             };
             zAxis = new Axis
             {
                 Name = "Z轴",
-                Speed = 1,
-                TargetSpeed = 1,
-                ActualCurrent = 1,
-                Location = 1,
-                TargetLocation = 1
+
             };
+            Axes = new ObservableCollection<Axis>
+            {
+                XAxis,
+                YAxis,
+                ZAxis,
+            };
+            ReadData();
         }
-        public ObservableCollection<Axis> Axes { get; set; }
+        [ObservableProperty]
+        private ObservableCollection<Axis> axes;
         [ObservableProperty]
         private decimal temperature1;
-        private readonly SiemensManager _manager;
+        private readonly IDeviceManager _manager;
 
         [ObservableProperty]
         private Axis xAxis;
@@ -63,25 +58,41 @@ namespace Normalizing.ViewModels.Pages
         private FlowSensor flowSensor;
         [ObservableProperty]
         private DisplacementSensor displacementSensor;
+        [ObservableProperty]
+        private MachineStatus machineStatus;
 
-        public MachineToolViewModel()
+        public async Task ReadData()
         {
+            while (true)
+            {
+                await Task.Delay(3000);
+
+                var axisInfo = await _manager.ReadAxisInfoAsync();
+
+                if (axisInfo != null)
+                {
+                    Axes = new ObservableCollection<Axis>
+                    {
+                        axisInfo.XAxis,
+                        axisInfo.YAxis,
+                        axisInfo.ZAxis
+                    };
+                    XAxis = axisInfo.XAxis;
+                    YAxis = axisInfo.YAxis;
+                    ZAxis = axisInfo.ZAxis;
+                }
+                TemperatureSensor = await _manager.ReadTemperatureSensorAsync();
+                FlowSensor = await _manager.ReadFlowSensorAsync();
+                DisplacementSensor = await _manager.ReadDisplacementSensorAsync();
+                MachineStatus = await _manager.ReadMachineStatusAsync();
+
+            }
 
         }
 
-        [RelayCommand]
-        public async Task GetAxisData()
+        public void Dispose()
         {
-            var axisInfo = await _manager.ReadAxisInfoAsync();
-            if (axisInfo != null)
-            {
-                XAxis = axisInfo.XAxis;
-                YAxis = axisInfo.YAxis;
-                ZAxis = axisInfo.ZAxis;
-            }
-            TemperatureSensor = await _manager.GetTemperatureSensorAsync();
-            FlowSensor = await _manager.GetFlowSensorAsync();
-            DisplacementSensor = await _manager.GetDisplacementSensorAsync();
+            throw new NotImplementedException();
         }
     }
 }

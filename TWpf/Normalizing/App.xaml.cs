@@ -57,6 +57,8 @@ namespace Normalizing
                 services.AddSingleton<MachineToolViewModel>();
 
                 services.AddSingleton<SiemensManager>();
+                services.AddSingleton<IDeviceManager, MockDeviceManager>();
+
             }).Build();
 
         /// <summary>

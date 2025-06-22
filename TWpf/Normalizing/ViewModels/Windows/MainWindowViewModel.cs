@@ -29,6 +29,12 @@ namespace Normalizing.ViewModels.Windows
                 Content = "机床信息",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Info12 },
                 TargetPageType = typeof(Views.Pages.MachineToolPage)
+            },
+                new NavigationViewItem()
+            {
+                Content = "手动控制",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Settings16 },
+                TargetPageType = typeof(Views.Pages.MachineToolPage)
             }
         };
 

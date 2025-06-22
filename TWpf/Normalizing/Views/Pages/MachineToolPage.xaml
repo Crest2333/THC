@@ -13,16 +13,82 @@
       d:DataContext="{d:DesignInstance vm:MachineToolViewModel}"
       >
     <Page.Resources>
-        <Style TargetType="Border" x:Key="Card">
-            <Setter Property="Background" Value="White"></Setter>
-            <Setter Property="Padding" Value="15"></Setter>
-            <Setter Property="CornerRadius" Value="5"></Setter>
+        <Style x:Key="HoverCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="15"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="6" Opacity="0.1">
-                    </DropShadowEffect>
+                    <DropShadowEffect 
+                     BlurRadius="10"
+                     ShadowDepth="2"
+                     Color="#44000000"
+                     Opacity="0.1"/>
                 </Setter.Value>
             </Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform Y="0"/>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <!-- 垂直悬浮动画 -->
+                                <DoubleAnimation 
+                                 Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                                 To="-3"
+                                 Duration="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+
+                                <!-- 阴影增强动画 -->
+                                <DoubleAnimation 
+                                 Storyboard.TargetProperty="(Effect).(DropShadowEffect.BlurRadius)"
+                                 To="15"
+                                 Duration="0:0:0.2"/>
+                                <DoubleAnimation 
+                                 Storyboard.TargetProperty="(Effect).(DropShadowEffect.ShadowDepth)"
+                                 To="10"
+                                 Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation 
+                                 Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                                 To="0"
+                                 Duration="0:0:0.2"
+                                 >
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+
+                                <DoubleAnimation 
+                                 Storyboard.TargetProperty="(Effect).(DropShadowEffect.BlurRadius)"
+                                 To="10"
+                                 Duration="0:0:0.2"/>
+                                <DoubleAnimation 
+                                 Storyboard.TargetProperty="(Effect).(DropShadowEffect.ShadowDepth)"
+                                 To="2"
+                                 Duration="0:0:0.2"/>
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+
+
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <helpers:StatusToBrushConverter x:Key="StatusToBrushConverter"></helpers:StatusToBrushConverter>
         <Style TargetType="Border" x:Key="PowerBorderStyle">
@@ -37,7 +103,6 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Stroke" Value="#333333"/>
             <Setter Property="StrokeThickness" Value="0"/>
-            <Setter Property="Fill" Value="{Binding Status, Converter={StaticResource StatusToBrushConverter}}"/>
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect BlurRadius="6" ShadowDepth="-4" Color="#C2EDDF"/>
@@ -47,69 +112,49 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition  Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Border  Style="{StaticResource Card}">
+        <Border  Style="{StaticResource HoverCardStyle}" Margin="0 10 0 0" MinHeight="200">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
                     <ui:SymbolIcon Symbol="FastAcceleration20" FontSize="26" Foreground="#F97316" Margin="0 0 5 0"></ui:SymbolIcon>
                     <TextBlock Text="轴信息监控" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                    <ui:Button Command="{Binding GetAxisDataCommand}">测试</ui:Button>
                 </StackPanel>
-                <UniformGrid Columns="3">
+                <UniformGrid Columns="6">
+                    <TextBlock Text="轴名称"></TextBlock>
+                    <TextBlock Text="实际位置"></TextBlock>
+                    <TextBlock Text="实际速度 (mm/s)"></TextBlock>
+                    <TextBlock Text="目标位置"></TextBlock>
+                    <TextBlock Text="目标速度"/>
+                    <TextBlock Text="实际电流 (A)"></TextBlock>
 
-                    <ui:Card Background="#EFF6FF" Margin="0 0 10 0">
-                        <StackPanel Orientation="Vertical" MinHeight="250">
-                            <TextBlock FontSize="18" FontWeight="Bold" Foreground="SkyBlue" Margin="0 5 0 5">X轴</TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际位置</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Location}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际速度 (mm/s)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">目标位置</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.TargetLocation}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">目标速度</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.TargetSpeed}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际电流 (A)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.ActualCurrent}"></TextBlock>
-                        </StackPanel>
-                    </ui:Card>
-                    <ui:Card Background="#F0FDF4" Margin="0 0 10 0">
-                        <StackPanel Orientation="Vertical" MinHeight="250">
-                            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#15803D" Margin="0 5 0 5">Y轴</TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际位置</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding YAxis.Location}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际速度 (mm/s)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding YAxis.Speed}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">目标位置</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding YAxis.TargetLocation}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">目标速度</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding YAxis.TargetSpeed}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际电流 (A)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding YAxis.ActualCurrent}"></TextBlock>
-                        </StackPanel>
-                    </ui:Card>
-                    <ui:Card Background="#FAF5FF">
-                        <StackPanel Orientation="Vertical" MinHeight="250">
-                            <TextBlock FontSize="18" FontWeight="Bold" Foreground="SkyBlue" Margin="0 5 0 5">Z轴</TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际位置</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Location}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际速度 (mm/s)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Speed}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">目标位置</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.TargetLocation}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">目标速度</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.TargetSpeed}"></TextBlock>
-                            <TextBlock Margin="0 12 0 0">实际电流 (A)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.ActualCurrent}"></TextBlock>
-                        </StackPanel>
-                    </ui:Card>
+                    <TextBlock  Height="30"  >X轴</TextBlock>
+                    <TextBlock  Text="{Binding XAxis.Location}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.Speed}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.TargetLocation}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.TargetSpeed}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.ActualCurrent}"></TextBlock>
+
+                    <TextBlock>Y轴</TextBlock>
+                    <TextBlock  Text="{Binding YAxis.Location}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.Speed}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.TargetLocation}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.TargetSpeed}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.ActualCurrent}"></TextBlock>
+
+                    <TextBlock>Z轴</TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.Location}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.Speed}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.TargetLocation}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.TargetSpeed}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.ActualCurrent}"></TextBlock>
                 </UniformGrid>
 
             </StackPanel>
         </Border>
-        <Border  Style="{StaticResource Card}" Grid.Row="1" Margin="0 10 0 0">
+        <Border  Style="{StaticResource HoverCardStyle}" Grid.Row="1" Margin="0 10 0 0">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
                     <ui:SymbolIcon Symbol="Temperature16" FontSize="26" Foreground="#F97316" ></ui:SymbolIcon>
@@ -125,24 +170,24 @@
                         <StackPanel Orientation="Vertical" MinHeight="250">
                             <TextBlock FontSize="18" FontWeight="Bold" Foreground="#C6410C" Margin="0 5 0 5">温度传感器</TextBlock>
                             <TextBlock Margin="0 12 0 0">轨顶温度(℃)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Location}"></TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding TemperatureSensor.RailHead}"></TextBlock>
                             <TextBlock Margin="0 12 0 0">轨脚温度(℃)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding TemperatureSensor.RailFoot}"></TextBlock>
                             <TextBlock Margin="0 12 0 0">内轨脚温度(℃)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding TemperatureSensor.InnerRailFoot}"></TextBlock>
                             <TextBlock Margin="0 12 0 0">冷却温度(℃)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Speed}"></TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding TemperatureSensor.Cooling}"></TextBlock>
                         </StackPanel>
                     </ui:Card>
                     <ui:Card Background="#F0FDFA" Margin="0 0 10 0" Grid.Column="1">
                         <StackPanel Orientation="Vertical" MinHeight="250">
                             <TextBlock FontSize="18" FontWeight="Bold" Foreground="#0F766E" Margin="0 5 0 5">流量传感器</TextBlock>
                             <TextBlock Margin="0 12 0 0">轨顶流量(L/min)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Location}"></TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding FlowSensor.RailHead}"></TextBlock>
                             <TextBlock Margin="0 12 0 0">轨腰流量(L/min)</TextBlock>
-                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.Speed}"></TextBlock>
+                            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding FlowSensor.RailWeb}"></TextBlock>
                             <TextBlock Margin="0 12 0 0">轨底流量(L/min)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding ZAxis.ActualCurrent}"></TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding FlowSensor.RailFoot}"></TextBlock>
                         </StackPanel>
                     </ui:Card>
 
@@ -151,15 +196,17 @@
                         <StackPanel Orientation="Vertical" MinHeight="250">
                             <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4338CA" Margin="0 5 0 5">位移传感器</TextBlock>
                             <TextBlock Margin="0 12 0 0">Y轴跟踪(mm)</TextBlock>
-                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding XAxis.Location}"></TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding DisplacementSensor.Y}"></TextBlock>
                             <TextBlock Margin="0 12 0 0">Z轴跟踪(mm)</TextBlock>
+                            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding DisplacementSensor.X}"></TextBlock>
+
                         </StackPanel>
 
                     </ui:Card>
                 </Grid>
             </StackPanel>
         </Border>
-        <Border  Style="{StaticResource Card}"  Grid.Row="2" Margin="0 10 0 0">
+        <Border  Style="{StaticResource HoverCardStyle}"  Grid.Row="2" Margin="0 10 0 0">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
                     <ui:SymbolIcon Symbol="Power20" FontSize="26" Foreground="#F97316" FontWeight="Bold" Margin="0 0 5 0"></ui:SymbolIcon>
@@ -175,61 +222,63 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="电力参数" FontSize="18"></TextBlock>
-                    <TextBlock Text="运行状态" FontSize="18" Grid.Column="1" Grid.Row="0" Margin="10 0 0 0"> </TextBlock>
+                    <TextBlock Text="运行状态" FontSize="18" Grid.Column="1" Grid.Row="0" Margin="10 0 0 0"></TextBlock>
 
                     <UniformGrid Grid.Row="1" Grid.Column="0" Columns="2" Margin="0 10 0 0">
                         <Border Style="{StaticResource PowerBorderStyle}" Margin="0 10 0 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <TextBlock Text="当前电压" FontSize="14"></TextBlock>
-                                <TextBlock Text="220.5 V" FontWeight="Bold" FontSize="20"></TextBlock>
+                                <TextBlock Text="{Binding MachineStatus.Voltage,StringFormat={}{0} V}" FontWeight="Bold" FontSize="20"></TextBlock>
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource PowerBorderStyle}" Margin="10 0 0 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="当前电压" FontSize="14"></TextBlock>
-                                <TextBlock Text="220.5 V" FontWeight="Bold" FontSize="20"></TextBlock>
+                                <TextBlock Text="当前电流" FontSize="14"></TextBlock>
+                                <TextBlock Text="{Binding MachineStatus.Current,StringFormat={}{0}A}" FontWeight="Bold" FontSize="20"></TextBlock>
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource PowerBorderStyle}" Margin="0 10 0 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="当前电压" FontSize="14"></TextBlock>
-                                <TextBlock Text="220.5 V" FontWeight="Bold" FontSize="20"></TextBlock>
+                                <TextBlock Text="当前功率" FontSize="14"></TextBlock>
+                                <TextBlock Text="{Binding MachineStatus.Energy,StringFormat={}{0} kW}" FontWeight="Bold" FontSize="20"></TextBlock>
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource PowerBorderStyle}" Margin="10 10 0 0">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock Text="当前电压" FontSize="14"></TextBlock>
-                                <TextBlock Text="220.5 V" FontWeight="Bold" FontSize="20"></TextBlock>
+                                <TextBlock Text="能量值" FontSize="14"></TextBlock>
+                                <TextBlock Text="{Binding MachineStatus.Power,StringFormat={}{0} kWh}" FontWeight="Bold" FontSize="20"></TextBlock>
                             </StackPanel>
                         </Border>
                     </UniformGrid>
                     <UniformGrid  Columns="1" Grid.Row="1" Grid.Column="1" Margin="10 10 0 0">
                         <StackPanel Orientation="Horizontal">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.IgbmPowerState, Converter={StaticResource StatusToBrushConverter}}">
+
+                            </Ellipse>
                             <TextBlock Text="IGBI电源状态" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 12 0 0">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.YAxisTrackingState, Converter={StaticResource StatusToBrushConverter}}"/>
                             <TextBlock Text="Y轴跟踪到位"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 12 0 0">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.ZAxisTrackingState, Converter={StaticResource StatusToBrushConverter}}"/>
                             <TextBlock Text="Z轴跟踪到位"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 12 0 0">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.TopCylinderSafetyState, Converter={StaticResource StatusToBrushConverter}}"/>
                             <TextBlock Text="顶料缸安全位"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 12 0 0">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.ProcessingAllowedState, Converter={StaticResource StatusToBrushConverter}}"/>
                             <TextBlock Text="允许加工"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 12 0 0">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.FeedingCompletedState, Converter={StaticResource StatusToBrushConverter}}"/>
                             <TextBlock Text="送料完成"></TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 12 0 0">
-                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0"/>
+                            <Ellipse Style="{StaticResource IndicatorEllipseStyle}" Margin="0 0 6 0" Fill="{Binding MachineStatus.AutoRunState, Converter={StaticResource StatusToBrushConverter}}"/>
                             <TextBlock Text="自动运行"></TextBlock>
                         </StackPanel>
                     </UniformGrid>
