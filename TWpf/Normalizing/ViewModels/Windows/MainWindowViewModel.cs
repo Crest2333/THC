@@ -11,19 +11,6 @@ namespace Normalizing.ViewModels.Windows
         [ObservableProperty]
         private ObservableCollection<object> _menuItems = new()
         {
-            new NavigationViewItem()
-            {
-                Content = "Home",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Views.Pages.DashboardPage)
-            },
-            new NavigationViewItem()
-            {
-                Content = "Data",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
-                TargetPageType = typeof(Views.Pages.DataPage)
-            },
-
               new NavigationViewItem()
             {
                 Content = "机床信息",
@@ -34,7 +21,7 @@ namespace Normalizing.ViewModels.Windows
             {
                 Content = "手动控制",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings16 },
-                TargetPageType = typeof(Views.Pages.MachineToolPage)
+                TargetPageType = typeof(Views.Pages.ManualControlPage)
             }
         };
 

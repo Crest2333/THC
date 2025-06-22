@@ -1,0 +1,355 @@
+﻿<Page x:Class="Normalizing.Views.Pages.ManualControlPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Normalizing.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+
+      Title="ManualControlPage">
+    <Page.Resources>
+        <Style x:Key="HoverCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect 
+                  BlurRadius="10"
+                  ShadowDepth="2"
+                  Color="#44000000"
+                  Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform Y="0"/>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <!-- 垂直悬浮动画 -->
+                                <DoubleAnimation 
+                              Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                              To="-3"
+                              Duration="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+
+                                <!-- 阴影增强动画 -->
+                                <DoubleAnimation 
+                              Storyboard.TargetProperty="(Effect).(DropShadowEffect.BlurRadius)"
+                              To="15"
+                              Duration="0:0:0.2"/>
+                                <DoubleAnimation 
+                              Storyboard.TargetProperty="(Effect).(DropShadowEffect.ShadowDepth)"
+                              To="10"
+                              Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation 
+                              Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)"
+                              To="0"
+                              Duration="0:0:0.2"
+                              >
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+
+                                <DoubleAnimation 
+                              Storyboard.TargetProperty="(Effect).(DropShadowEffect.BlurRadius)"
+                              To="10"
+                              Duration="0:0:0.2"/>
+                                <DoubleAnimation 
+                              Storyboard.TargetProperty="(Effect).(DropShadowEffect.ShadowDepth)"
+                              To="2"
+                              Duration="0:0:0.2"/>
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Border" x:Key="PowerBorderStyle">
+            <Setter Property="Background" Value="#F9FAFB"></Setter>
+            <Setter Property="CornerRadius" Value="10"></Setter>
+            <Setter Property="Padding" Value="12"></Setter>
+        </Style>
+        <Style x:Key="IndicatorEllipseStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Stroke" Value="#333333"/>
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="6" ShadowDepth="-4" Color="#C2EDDF"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition  Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border  Style="{StaticResource HoverCardStyle}" Margin="0 10 0 0" MinHeight="200" Grid.ColumnSpan="3">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
+                    <ui:SymbolIcon Symbol="FastAcceleration20" FontSize="26" Foreground="#F97316" Margin="0 0 5 0"></ui:SymbolIcon>
+                    <TextBlock Text="轴信息监控" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <UniformGrid Columns="6">
+                    <TextBlock Text="轴名称"></TextBlock>
+                    <TextBlock Text="实际位置"></TextBlock>
+                    <TextBlock Text="实际速度 (mm/s)"></TextBlock>
+                    <TextBlock Text="目标位置"></TextBlock>
+                    <TextBlock Text="目标速度"/>
+                    <TextBlock Text="实际电流 (A)"></TextBlock>
+
+                    <TextBlock  Height="30"  >X轴</TextBlock>
+                    <TextBlock  Text="{Binding XAxis.Location}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.Speed}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.TargetLocation}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.TargetSpeed}"></TextBlock>
+                    <TextBlock  Text="{Binding XAxis.ActualCurrent}"></TextBlock>
+
+                    <TextBlock>Y轴</TextBlock>
+                    <TextBlock  Text="{Binding YAxis.Location}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.Speed}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.TargetLocation}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.TargetSpeed}"></TextBlock>
+                    <TextBlock  Text="{Binding YAxis.ActualCurrent}"></TextBlock>
+
+                    <TextBlock>Z轴</TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.Location}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.Speed}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.TargetLocation}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.TargetSpeed}"></TextBlock>
+                    <TextBlock  Text="{Binding ZAxis.ActualCurrent}"></TextBlock>
+                </UniformGrid>
+
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource HoverCardStyle}" Margin="0 10 0 0" MinHeight="200">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
+                    <ui:SymbolIcon Symbol="Flash16" FontSize="26" Foreground="#F97316" Margin="0 0 5 0"></ui:SymbolIcon>
+                    <TextBlock Text="电源控制" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <Border Padding="10" Height="180">
+                    <UniformGrid Columns="2">
+                        <TextBlock Text="功率设定（%）" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 10 0"></TextBlock>
+                        <ui:TextBox Margin="0 0 10 0"></ui:TextBox>
+                        <TextBlock Text="时间设定（s）"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 10 10 0"></TextBlock>
+                        <ui:TextBox Margin="0 10 10 0"></ui:TextBox>
+                        <ui:Button HorizontalAlignment="Center">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="Play12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                            开始
+                        </ui:Button>
+                        <ui:Button HorizontalAlignment="Center">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="Stop16"></ui:SymbolIcon>
+                            </ui:Button.Icon> 停止
+                        </ui:Button>
+
+                    </UniformGrid>
+                </Border>
+
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource HoverCardStyle}" Margin="10 10 10 0" MinHeight="200">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
+                    <TextBlock Text="X/Y轴位移气缸控制" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <Border Padding="10" Height="180">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <ui:Button HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Height="50" Width="50">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowLeft12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+
+                        </ui:Button>
+                        <ui:Button HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Height="50" Width="50">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowRight12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                        <ui:Button HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Height="50" Width="50">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowUp12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+
+                        </ui:Button>
+                        <ui:Button HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Height="50" Width="50">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowDown12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                    </Grid>
+
+                </Border>
+
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource HoverCardStyle}" Margin="0 10 0 0" MinHeight="200">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
+                    <TextBlock Text="喷风控制" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <Border Padding="10" Height="180">
+                    <UniformGrid Columns="2">
+
+                        <ui:Button HorizontalAlignment="Center">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="Play12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                            开始
+                        </ui:Button>
+                        <ui:Button HorizontalAlignment="Center">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="Stop16"></ui:SymbolIcon>
+                            </ui:Button.Icon> 停止
+                        </ui:Button>
+
+                    </UniformGrid>
+                </Border>
+
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource HoverCardStyle}" Margin="0 10 0 0" MinHeight="200">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
+                    <TextBlock Text="气缸控制" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <ui:Card>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="1#顶料气缸控制" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center"   Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowUp12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                        <ui:Button Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowDown12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                    </Grid>
+                       
+                   
+                </ui:Card>
+                <ui:Card>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="2#顶料气缸控制" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center"   Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowUp12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                        <ui:Button Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowDown12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                    </Grid>
+
+
+                </ui:Card>
+                <ui:Card>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="3#顶料气缸控制" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center"   Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowUp12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                        <ui:Button Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowDown12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                    </Grid>
+
+
+                </ui:Card>
+                <ui:Card>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="4#顶料气缸控制" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center"   Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowUp12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                        <ui:Button Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"  Height="50" Width="100">
+                            <ui:Button.Icon>
+                                <ui:SymbolIcon Symbol="ArrowDown12"></ui:SymbolIcon>
+                            </ui:Button.Icon>
+                        </ui:Button>
+                    </Grid>
+
+
+                </ui:Card>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

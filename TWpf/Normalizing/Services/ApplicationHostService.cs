@@ -50,7 +50,7 @@ namespace Normalizing.Services
                 )!;
                 _navigationWindow!.ShowWindow();
 
-                _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
+                _navigationWindow.Navigate(typeof(Views.Pages.MachineToolPage));
             }
 
             await Task.CompletedTask;
