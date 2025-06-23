@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Normalizing.Models
 {
-    public enum DeviceStatus
+    public enum DeviceStatus : short
     {
         Normal,
         Abnormal

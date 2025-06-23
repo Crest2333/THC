@@ -1,4 +1,5 @@
 ﻿using Normalizing.Models;
+using Normalizing.Services;
 using S7.Net;
 using S7.Net.Types;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Normalizing.Siemens
 {
-    public class SiemensManager : IDisposable
+    public class SiemensManager : IDeviceManager, IDisposable
     {
         public SiemensManager()
         {
@@ -85,6 +86,10 @@ namespace Normalizing.Siemens
 
         public async Task<bool> OpenAsync()
         {
+            if (Plc.IsConnected)
+            {
+                return true;
+            }
             try
             {
                 await Plc.OpenAsync();
@@ -96,19 +101,100 @@ namespace Normalizing.Siemens
             }
         }
 
-        internal async Task<DisplacementSensor> GetDisplacementSensorAsync()
+        public async Task<DisplacementSensor> ReadDisplacementSensorAsync()
         {
-            throw new NotImplementedException();
+            if (!await OpenAsync())
+            {
+                return new DisplacementSensor();
+            }
+            try
+            {
+                var result = new DisplacementSensor();
+                var data = (float[])await Plc.ReadAsync(DataType.DataBlock, 1, 4 * 22, VarType.Real, 3);
+                result.X = data[0];
+                result.Y = data[1];
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new DisplacementSensor();
+            }
         }
 
-        internal async Task<FlowSensor> GetFlowSensorAsync()
+        public async Task<FlowSensor> ReadFlowSensorAsync()
         {
-            throw new NotImplementedException();
+            if (!await OpenAsync())
+            {
+                return new FlowSensor();
+            }
+            try
+            {
+                var result = new FlowSensor();
+                var data = (float[])await Plc.ReadAsync(DataType.DataBlock, 1, 4 * 19, VarType.Real, 3);
+                result.RailHead = data[0];
+                result.RailWeb = data[1];
+                result.RailFoot = data[2];
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new FlowSensor();
+            }
         }
 
-        internal async Task<TemperatureSensor> GetTemperatureSensorAsync()
+        public async Task<TemperatureSensor> ReadTemperatureSensorAsync()
         {
-            throw new NotImplementedException();
+            if (!await OpenAsync())
+            {
+                return new TemperatureSensor();
+            }
+            try
+            {
+                var result = new TemperatureSensor();
+                var data = (float[])await Plc.ReadAsync(DataType.DataBlock, 1, 4 * 15 , VarType.Real, 4);
+                result.InnerRailFoot = data[0];
+                result.RailFoot = data[1];
+                result.Cooling = data[2];
+                result.RailHead = data[3];
+                return result;
+            }
+            catch(Exception ex)
+            {
+                return new TemperatureSensor();
+            }
+        }
+
+        public async Task<MachineStatus> ReadMachineStatusAsync()
+        {
+            if (!await OpenAsync())
+            {
+                return new MachineStatus();
+            }
+            try
+            {
+                var result = new MachineStatus();
+                var data = (float[])await Plc.ReadAsync(DataType.DataBlock, 1, 4 * 24, VarType.Real, 4);
+                result.Voltage = data[0];
+                result.Current = data[1];
+                result.Power = data[2];
+                result.Energy = data[3];
+                var stateData = (short[])await Plc.ReadAsync(DataType.DataBlock, 1, 4 * 28, VarType.Int, 7);
+
+                result.IgbmPowerState = (DeviceStatus)stateData[0];
+                result.YAxisTrackingState = (DeviceStatus)stateData[1];
+                result.ZAxisTrackingState = (DeviceStatus)stateData[2];
+                result.TopCylinderSafetyState = (DeviceStatus)stateData[3];
+                result.ProcessingAllowedState = (DeviceStatus)stateData[4];
+                result.FeedingCompletedState = (DeviceStatus)stateData[5];
+                result.AutoRunState = (DeviceStatus)stateData[6];
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new MachineStatus();
+            }
         }
     }
 }

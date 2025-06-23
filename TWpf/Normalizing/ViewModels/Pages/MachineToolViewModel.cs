@@ -37,7 +37,7 @@ namespace Normalizing.ViewModels.Pages
                 YAxis,
                 ZAxis,
             };
-            ReadData();
+            //ReadData();
         }
         [ObservableProperty]
         private ObservableCollection<Axis> axes;
@@ -61,7 +61,7 @@ namespace Normalizing.ViewModels.Pages
         [ObservableProperty]
         private MachineStatus machineStatus;
 
-        public async Task ReadData()
+        public async Task ReadData1()
         {
             while (true)
             {
@@ -88,6 +88,29 @@ namespace Normalizing.ViewModels.Pages
 
             }
 
+        }
+
+        [RelayCommand]
+        public async Task ReadData()
+        {
+            var axisInfo = await _manager.ReadAxisInfoAsync();
+
+            if (axisInfo != null)
+            {
+                Axes = new ObservableCollection<Axis>
+                    {
+                        axisInfo.XAxis,
+                        axisInfo.YAxis,
+                        axisInfo.ZAxis
+                    };
+                XAxis = axisInfo.XAxis;
+                YAxis = axisInfo.YAxis;
+                ZAxis = axisInfo.ZAxis;
+            }
+            TemperatureSensor = await _manager.ReadTemperatureSensorAsync();
+            FlowSensor = await _manager.ReadFlowSensorAsync();
+            DisplacementSensor = await _manager.ReadDisplacementSensorAsync();
+            MachineStatus = await _manager.ReadMachineStatusAsync();
         }
 
         public void Dispose()

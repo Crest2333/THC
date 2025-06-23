@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Normalizing.Extensions;
 using Normalizing.Services;
 using Normalizing.Siemens;
 using Normalizing.ViewModels.Pages;
@@ -60,7 +61,7 @@ namespace Normalizing
                 services.AddSingleton<ManualControlViewModel>();
 
                 services.AddSingleton<SiemensManager>();
-                services.AddSingleton<IDeviceManager, MockDeviceManager>();
+                services.UseSiemens();
 
             }).Build();
 

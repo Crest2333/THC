@@ -121,6 +121,7 @@
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
                     <ui:SymbolIcon Symbol="FastAcceleration20" FontSize="26" Foreground="#F97316" Margin="0 0 5 0"></ui:SymbolIcon>
                     <TextBlock Text="轴信息监控" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                    <Button Command="{Binding ReadDataCommand}">读取</Button>
                 </StackPanel>
                 <UniformGrid Columns="6">
                     <TextBlock Text="轴名称"></TextBlock>
