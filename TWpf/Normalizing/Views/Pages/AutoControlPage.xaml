@@ -1,0 +1,177 @@
+﻿<Page x:Class="Normalizing.Views.Pages.AutoControlPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Normalizing.Views.Pages"
+      xmlns:vm="clr-namespace:Normalizing.ViewModels.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AutoControlPage"
+      d:DataContext="{d:DesignInstance vm:AutoControlViewModel}"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      >
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*">
+
+            </ColumnDefinition>
+            <ColumnDefinition>
+
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ui:Card>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock Text="位移传感器参数设定(单位：mm)" Grid.Row="0" Margin="0 0 0 16"></ui:TextBlock>
+                    <UniformGrid Columns="8" Grid.Row="1">
+                        <TextBlock VerticalAlignment="Center">Y轴传感器</TextBlock>
+                        <ui:TextBlock Text="1" ></ui:TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">Y轴焊缝零位</TextBlock>
+                        <ui:NumberBox Text="{Binding YWeldZero}"></ui:NumberBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">Y轴补偿零位</TextBlock>
+                        <ui:NumberBox Text="{Binding YCompensationZero}"></ui:NumberBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">补偿使能</TextBlock>
+                        <ui:ToggleSwitch IsChecked="{Binding CompensationEnabled}"></ui:ToggleSwitch>
+                        <TextBlock VerticalAlignment="Center">Z轴传感器</TextBlock>
+                        <ui:TextBlock Text="1"></ui:TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">焊缝高度</TextBlock>
+                        <ui:TextBox Text="{Binding WeldHeight}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">Z轴补偿零位</TextBlock>
+                        <ui:TextBox Text="{Binding ZCompensationZero}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">找焊缝使能</TextBlock>
+                        <ui:ToggleSwitch IsChecked="{Binding WeldDetectionEnabled}"></ui:ToggleSwitch>
+                    </UniformGrid>
+                </Grid>
+            </ui:Card>
+
+            <ui:Card Grid.Row="1" Margin="0 10 0 0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel  Orientation="Horizontal">
+                        <ui:TextBlock VerticalAlignment="Center" Text="位移传感器参数设定(单位：mm)"  ></ui:TextBlock>
+                        <ui:TextBlock VerticalAlignment="Center" Margin="50 0 0 0">X轴实际值</ui:TextBlock>
+                        <ui:TextBlock VerticalAlignment="Center"  Margin="5 0 0 0">1</ui:TextBlock>
+                        <ui:TextBlock VerticalAlignment="Center" Margin="10 0 0 0">Y轴实际值</ui:TextBlock>
+                        <ui:TextBlock VerticalAlignment="Center"  Margin="5 0 0 0">2</ui:TextBlock>
+                        <ui:TextBlock VerticalAlignment="Center" Margin="10 0 0 0">Z轴实际值</ui:TextBlock>
+                        <ui:TextBlock VerticalAlignment="Center" Margin="5 0 0 0">3</ui:TextBlock>
+                    </StackPanel>
+
+                    <UniformGrid Columns="4" Grid.Row="1" Margin="10 16 0 0">
+                        <TextBlock VerticalAlignment="Center">起始位置(mm)</TextBlock>
+                        <ui:TextBox Text="{Binding StartPosition}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center"  Margin="10 0 0 0">起始位置速度(mm/min)</TextBlock>
+                        <ui:TextBox Text="{Binding StartPositionSpeed}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" >焊缝极限(mm)</TextBlock>
+                        <ui:TextBox Text="{Binding WeldLimit}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">找焊缝速度(mm/min)</TextBlock>
+                        <ui:TextBox Text="{Binding WeldDetectionSpeed}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" >加热距离(mm)</TextBlock>
+                        <ui:TextBox Text="{Binding HeatingDistance}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">加热位速度</TextBlock>
+                        <ui:TextBox Text="{Binding HeatingPositionSpeed}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" >喷风距离(mm)</TextBlock>
+                        <ui:TextBox Text="{Binding AirSprayDistance}"></ui:TextBox>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">喷风移动速度</TextBlock>
+                        <ui:TextBox Text="{Binding AirSpraySpeed}"></ui:TextBox>
+                    </UniformGrid>
+                </Grid>
+            </ui:Card>
+
+            <ui:Card Grid.Row="2" Margin="0 20 0 0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock Text="工艺参数设定" Grid.Row="0" Margin="0 0 0 16"></ui:TextBlock>
+                    <UniformGrid Columns="5" Grid.Row="1">
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">程序段</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">温度设定(℃)</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">功率设定(%)</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">冷却方式</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">冷却参数(S/℃)</TextBlock>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">起始状态</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0" Text="{Binding tE}"></ui:TextBox>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+                        <RadioButton GroupName="Power_Group" VerticalAlignment="Center" Margin="10 0 0 0">时间</RadioButton>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">转变状态</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+                        <RadioButton GroupName="Power_Group" VerticalAlignment="Center" Margin="10 0 0 0">温度</RadioButton>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">最终状态</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 0 0 0"></ui:TextBox>
+
+
+                    </UniformGrid>
+                    <UniformGrid Columns="6" Grid.Row="2">
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">实际值(Mpa)</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">1</TextBlock>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">实际值(L)</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">2</TextBlock>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">实际值(KWS)</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">3</TextBlock>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0">风压上限(Mpa)</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 10 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 10 0 0">流量上限(L)</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 10 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 10 0 0">能量上限(KWS)</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 10 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 10 0 0">风压下限(Mpa)</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 10 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 10 0 0">流量下限(L)</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 10 0 0"></ui:TextBox>
+
+                        <TextBlock VerticalAlignment="Center" Margin="10 10 0 0">能量下限(KWS)</TextBlock>
+                        <ui:TextBox VerticalAlignment="Center" Margin="10 10 0 0"></ui:TextBox>
+                    </UniformGrid>
+                </Grid>
+            </ui:Card>
+        </Grid>
+
+        <ui:Card Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <ui:TextBlock Text="工艺参数管理" Grid.Row="0" Margin="0 0 0 16"></ui:TextBlock>
+                <ui:TextBox></ui:TextBox>
+                <ComboBox></ComboBox>
+                <UniformGrid Columns="4">
+                    <ui:Button>新建</ui:Button>
+                    <ui:Button>新建</ui:Button>
+                    <ui:Button>新建</ui:Button>
+                    <ui:Button>新建</ui:Button>
+                </UniformGrid>
+                <ListView></ListView>
+            </StackPanel>
+        </ui:Card>
+    </Grid>
+</Page>

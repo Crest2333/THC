@@ -22,6 +22,12 @@ namespace Normalizing.ViewModels.Windows
                 Content = "手动控制",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Settings16 },
                 TargetPageType = typeof(Views.Pages.ManualControlPage)
+            },
+                  new NavigationViewItem()
+            {
+                Content = "自动控制",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Settings16 },
+                TargetPageType = typeof(Views.Pages.AutoControlPage)
             }
         };
 

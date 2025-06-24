@@ -47,19 +47,8 @@ namespace Normalizing
                 // Main window with navigation
                 services.AddSingleton<INavigationWindow, MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
-
-                services.AddSingleton<DashboardPage>();
-                services.AddSingleton<DashboardViewModel>();
-                services.AddSingleton<DataPage>();
-                services.AddSingleton<DataViewModel>();
-                services.AddSingleton<SettingsPage>();
-                services.AddSingleton<SettingsViewModel>();
-                services.AddSingleton<MachineToolPage>();
-                services.AddSingleton<MachineToolViewModel>();
-
-                services.AddSingleton<ManualControlPage>();
-                services.AddSingleton<ManualControlViewModel>();
-
+                services.AddViewModel();
+                services.AddPage();
                 services.AddSingleton<SiemensManager>();
                 services.UseSiemens();
 
